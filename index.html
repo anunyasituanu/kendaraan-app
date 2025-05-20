@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pencatatan Kendaraan</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f5f5f5;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      box-sizing: border-box;
+    }
+    h2 {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h2>Form Kendaraan Masuk/Keluar</h2>
+  <form id="kendaraanForm">
+    <label>Tanggal:</label>
+    <input type="date" id="tanggal" required>
+    
+    <label>Waktu:</label>
+    <input type="time" id="waktu" required>
+    
+    <label>Keterangan:</label>
+    <select id="keterangan">
+      <option>Masuk</option>
+      <option>Keluar</option>
+    </select>
+
+    <label>Jenis Kendaraan:</label>
+    <select id="jenis">
+      <option>Roda Dua</option>
+      <option>Roda Empat</option>
+    </select>
+
+    <label>Warna:</label>
+    <input type="text" id="warna" placeholder="Contoh: Merah" required>
+    
+    <label>Nomor Plat:</label>
+    <input type="text" id="plat" placeholder="Contoh: B 1234 CD" required>
+    
+    <button type="submit">Simpan</button>
+    <p id="status"></p>
+  </form>
+
+  <script>
+    const form = document.getElementById("kendaraanForm");
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const data = {
+        tanggal: document.getElementById("tanggal").value,
+        waktu: document.getElementById("waktu").value,
+        keterangan: document.getElementById("keterangan").value,
+        jenis: document.getElementById("jenis").value,
+        warna: document.getElementById("warna").value,
+        plat: document.getElementById("plat").value
+      };
+
+      fetch("PASTE_WEB_APP_URL_HERE", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }).then(res => res.text()).then(msg => {
+        document.getElementById("status").innerText = msg;
+        form.reset();
+      }).catch(err => {
+        document.getElementById("status").innerText = "Gagal mengirim data.";
+      });
+    });
+  </script>
+</body>
+</html>
